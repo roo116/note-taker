@@ -1,3 +1,4 @@
+//setting variables
 let noteTitle;
 let noteText;
 let saveNoteBtn;
