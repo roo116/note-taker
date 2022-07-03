@@ -24,6 +24,11 @@ app.get('/api/notes', (req, res) => {
   res.json(notesData)
 });
 
+app.post('/api/notes', (req, res) => {
+  // req.body is where our incoming content will be
+  console.log(req.body);
+  res.json(req.body);
+});
 
 app.listen(PORT, () => {
   console.log(`Server on port ${PORT}`)
