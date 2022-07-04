@@ -12,7 +12,8 @@ app.use(express.static('public'));
 
 function createNewNote(body, data) {
   data.push(body)
-  fs.writeFileSync('./db/db.json',JSON.stringify(data), null, 2);
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),JSON.stringify(data), null, 2);
   return data
 }
   
