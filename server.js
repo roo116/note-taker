@@ -1,7 +1,8 @@
 const express = require("express");
+const fs = require('fs');
 const path = require("path");
-const PORT = process.env.PORT || 3001;
 const notesData = require('./db/db.json');
+const PORT = process.env.PORT || 3001;
 
 // instantiate server
 const app = express();
@@ -9,16 +10,33 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
+function createNewNote(body, data) {
+  data.push(body)
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),JSON.stringify(data), null, 2);
+  return data
+}
+  
+// static route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join('index.html'));
 });
 
+// static route
 app.get('/notes', (reg, res) => (
-    res.sendFile(path.join(__dirname, '/public/notes.html'))
+  res.sendFile(path.join(__dirname, 'public/notes.html'))
 ))
-// res.json() allows us to return JSON instead of a buffer, string, or static file
-app.get('/api', (req, res) => res.json(notesData));
+
+app.get('/api/notes', (req, res) => {
+  res.json(notesData)
+});
+
+app.post('/api/notes', (req, res) => {
+  const note = createNewNote(req.body, notesData)
+res.json(note)
+
+});
 
 app.listen(PORT, () => {
-    console.log(`Server on port ${PORT}`)
+  console.log(`Server on port ${PORT}`)
 });
