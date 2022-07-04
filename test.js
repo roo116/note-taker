@@ -3,12 +3,36 @@ const fs = require('fs');
 const notesData = require('./db/db.json');
 const path = require("path");
 const { request } = require('http');
+const {randomUUID} = require('crypto');
 
-console.log('this is notesData ',notesData)
-const body = { title: 'test', text: 'test2\n' }
-notesData.push(body)
-console.log('this is notesData ',notesData)
-fs.writeFileSync('./db/db.json',JSON.stringify(notesData), null, 2);
+
+body = {
+  "title":"UUID Test",
+  "text":"Did this work?"
+}
+
+function createNewNote(body, data) {
+  id = randomUUID();
+  body.id = id
+  data.push(body)
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),JSON.stringify(data), null, 2);
+  return data
+}
+
+createNewNote(body, notesData);
+
+
+
+
+// generate uuid
+// uuid.v4([options[, buffer[, offset]]])
+
+// console.log('this is notesData ',notesData)
+// const body = { title: 'test', text: 'test2\n' }
+// notesData.push(body)
+// console.log('this is notesData ',notesData)
+// fs.writeFileSync('./db/db.json',JSON.stringify(notesData), null, 2);
 //   JSON.stringify({ note: notesData }, null, 2))
 // return note;
 
@@ -82,5 +106,5 @@ fs.writeFileSync('./db/db.json',JSON.stringify(notesData), null, 2);
     // res.json(response);
   
 
-  // CreateNewNote(body, notesData)
+  
 
