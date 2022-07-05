@@ -2,8 +2,8 @@ const express = require("express");
 const fs = require('fs');
 const path = require("path");
 const { randomUUID } = require('crypto');
-
 const notesData = require('./db/db.json');
+const {createNewNote} = require('./lib/notes')
 // const { Router } = require("express");
 // const staticRoutes = require('./routes/staticRoutes')
 const PORT = process.env.PORT || 3001;
@@ -15,14 +15,14 @@ app.use(express.json());
 app.use(express.static('./public'));
 // app.use('/', staticRoutes)
 
-function createNewNote(body, data) {
-  // id = randomUUID();
-  // body.id = id;
-  data.push(body)
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'), JSON.stringify(data), null, 2);
-  return data
-}
+// function createNewNote(body, data) {
+//   // id = randomUUID();
+//   // body.id = id;
+//   data.push(body)
+//   fs.writeFileSync(
+//     path.join(__dirname, './db/db.json'), JSON.stringify(data), null, 2);
+//   return data
+// }
 
 // static route
 app.get('/', (req, res) => {
